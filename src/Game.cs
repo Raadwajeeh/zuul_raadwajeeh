@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 class Game
 {
@@ -27,8 +28,10 @@ class Game
 		outside.AddExit("east", theatre);
 		outside.AddExit("south", lab);
 		outside.AddExit("west", pub);
+		outside.AddExit("up", theatre); // a self-loop
 
 		theatre.AddExit("west", outside);
+		theatre.AddExit("down", outside); // a self-loop
 
 		pub.AddExit("east", outside);
 
@@ -96,9 +99,19 @@ class Game
 			case "go":
 				GoRoom(command);
 				break;
+			case "look":
+			    Look();
+			 	break;
+			case "up":
+			    GoRoom(new Command("go", "up"));
+			    break;
+			case "down":
+			    GoRoom(new Command("go", "down"));
+			    break;
 			case "quit":
 				wantToQuit = true;
 				break;
+			
 		}
 
 		return wantToQuit;
@@ -107,7 +120,11 @@ class Game
 	// ######################################
 	// implementations of user commands:
 	// ######################################
-	
+	private void Look()
+	{
+		Console.WriteLine(currentRoom.GetLongDescription());
+
+	}
 	// Print out some help information.
 	// Here we print the mission and a list of the command words.
 	private void PrintHelp()
