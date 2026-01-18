@@ -76,6 +76,11 @@ class Game
 		Console.WriteLine("Zuul is a new, incredibly boring adventure game.");
 		Console.WriteLine("Type 'help' if you need help.");
 		Console.WriteLine();
+		Console.WriteLine("How to play: Use commands like 'go east', 'go up', 'look', and 'quit' to navigate through the rooms.");
+		parser.PrintValidCommands();
+		Console.WriteLine("To win the game, you have to reach the other side of the university.");
+		Console.WriteLine("It's your adventure. Good luck!");
+		Console.WriteLine();
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 	}
 
