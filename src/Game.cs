@@ -68,6 +68,7 @@ class Game
 		Console.ReadLine();
 	}
 
+
 	// Print out the opening message for the player.
 	private void PrintWelcome()
 	{
@@ -114,6 +115,9 @@ class Game
 			case "down":
 			    GoRoom(new Command("go", "down"));
 			    break;
+			case "status":
+			    PrintStatus();
+				break;
 			case "quit":
 				wantToQuit = true;
 				break;
@@ -133,6 +137,10 @@ class Game
 	}
 	// Print out some help information.
 	// Here we print the mission and a list of the command words.
+	private void PrintStatus()
+	{
+		Console.WriteLine("You have " + player.GetHealth() + " health points.");
+	}
 	private void PrintHelp()
 	{
 		Console.WriteLine("You are lost. You are alone.");
@@ -155,6 +163,7 @@ class Game
 
 		string direction = command.SecondWord;
 
+		
 		// Try to go to the next room.
 		Room nextRoom = player.CurrentRoom.GetExit(direction);
 
@@ -163,8 +172,11 @@ class Game
 			Console.WriteLine("There is no door to "+direction+"!");
 			return;
 		}
-
+		
 		player.CurrentRoom = nextRoom;
+		player.Damage(10);
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
+		Console.WriteLine("Health: " +player.GetHealth());
 	}
 }
+

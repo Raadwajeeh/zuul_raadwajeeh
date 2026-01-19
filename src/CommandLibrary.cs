@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 class CommandLibrary
 {
@@ -16,6 +17,7 @@ class CommandLibrary
 		validCommands.Add("look");
 		validCommands.Add("up");
 		validCommands.Add("down");
+		validCommands.Add("status");
 	}
 
 	// Check whether a given string is a valid command word.
