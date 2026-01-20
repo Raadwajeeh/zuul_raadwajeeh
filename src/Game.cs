@@ -6,6 +6,8 @@ class Game
 	private Player player;
 	private Room startRoom;
 
+	private bool finished;
+
 	// Constructor
 	public Game()
 {
@@ -57,12 +59,18 @@ class Game
 
 		// Enter the main command loop. Here we repeatedly read commands and
 		// execute them until the player wants to quit.
-		bool finished = false;
+		finished = false;
 		while (!finished)
 		{
 			Command command = parser.GetCommand();
 			finished = ProcessCommand(command);
 		}
+
+		if (!player.IsAlive())
+		{
+			return;
+		}
+
 		Console.WriteLine("Thank you for playing.");
 		Console.WriteLine("Press [Enter] to continue.");
 		Console.ReadLine();
@@ -174,9 +182,20 @@ class Game
 		}
 		
 		player.CurrentRoom = nextRoom;
-		player.Damage(10);
+		player.Damage (50);
+		if (!player.IsAlive())
+		{
+    		Console.WriteLine("Health: " +player.GetHealth());
+			Console.WriteLine("You have died in " + player.CurrentRoom + ". Game over!");
+    		finished = true;
+    		return;
+		}
+
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
 		Console.WriteLine("Health: " +player.GetHealth());
+
+		
+
 	}
 }
 
