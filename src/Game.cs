@@ -51,12 +51,17 @@ class Game
 
 		// Create your Items here
 		// ...
-		
+		Items book = new Items(2,"Boek");
+		Items pen = new Items(2,"Pen");
+		Items bag = new Items(2,"Bag");
+		Items key = new Items(2,"Key");
+		Items gun = new Items(10,"Gun");
 		// And add them to the Rooms
 		// ...
 
 		// Start game outside
 		startRoom = outside;
+		//won Room is office
 		WinRoom = office;
 		//HealRoom = lab;
 	}
