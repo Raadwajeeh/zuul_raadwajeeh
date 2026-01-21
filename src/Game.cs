@@ -1,10 +1,16 @@
 using System;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 class Game
 {
 	// Private fields
 	private Parser parser;
 	private Player player;
 	private Room startRoom;
+
+	private Room WinRoom;
+
+	//private Room HealRoom;
 
 	private bool finished;
 
@@ -45,11 +51,14 @@ class Game
 
 		// Create your Items here
 		// ...
+		
 		// And add them to the Rooms
 		// ...
 
 		// Start game outside
 		startRoom = outside;
+		WinRoom = office;
+		//HealRoom = lab;
 	}
 
 	//  Main play routine. Loops until end of play.
@@ -63,7 +72,7 @@ class Game
 		while (!finished)
 		{
 			Command command = parser.GetCommand();
-			finished = ProcessCommand(command);
+			ProcessCommand(command);
 		}
 
 		if (!player.IsAlive())
@@ -96,14 +105,19 @@ class Game
 	// Given a command, process (that is: execute) the command.
 	// If this command ends the game, it returns true.
 	// Otherwise false is returned.
-	private bool ProcessCommand(Command command)
+	private void ProcessCommand(Command command)
 	{
-		bool wantToQuit = false;
+		
+		if (!player.IsAlive())
+		{
+    		finished = true;
+			return;
+		}
 
 		if(command.IsUnknown())
 		{
 			Console.WriteLine("I don't know what you mean...");
-			return wantToQuit; // false
+			return;
 		}
 
 		switch (command.CommandWord)
@@ -126,13 +140,16 @@ class Game
 			case "status":
 			    PrintStatus();
 				break;
+			case "heal":
+				HealPlayer();
+				break;
 			case "quit":
-				wantToQuit = true;
+				finished = true;
 				break;
 			
 		}
 
-		return wantToQuit;
+		return;
 	}
 
 	// ######################################
@@ -156,6 +173,12 @@ class Game
 		Console.WriteLine();
 		// let the parser print the commands
 		parser.PrintValidCommands();
+	}
+	private void HealPlayer()
+	{
+		player.Heal(10);
+		Console.WriteLine("You healed 10 points.");
+    	Console.WriteLine("Health: " + player.GetHealth());
 	}
 
 	// Try to go to one direction. If there is an exit, enter the new
@@ -182,20 +205,33 @@ class Game
 		}
 		
 		player.CurrentRoom = nextRoom;
-		player.Damage (50);
+
+		// won
+		if (player.CurrentRoom == WinRoom)
+		{
+			Console.WriteLine("You have Won!");
+			finished = true;
+			return;
+		}
+		
+		//          من راسي تعديل للهيل بحيث يمكن ان ترجع الصحه 20 اذا راح الى (lab)         if (player.CurrentRoom == HealRoom)
+		//{
+		//	player.Heal (20);
+		//	Console.WriteLine("You have healed 20 points!");
+		//	return;
+		//}
+
+		player.Damage (5);
 		if (!player.IsAlive())
 		{
-    		Console.WriteLine("Health: " +player.GetHealth());
-			Console.WriteLine("You have died in " + player.CurrentRoom + ". Game over!");
+			Console.WriteLine("You have died. Game over!");
     		finished = true;
     		return;
 		}
 
 		Console.WriteLine(player.CurrentRoom.GetLongDescription());
-		Console.WriteLine("Health: " +player.GetHealth());
 
 		
-
 	}
 }
 
