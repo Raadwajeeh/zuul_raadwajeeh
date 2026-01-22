@@ -51,13 +51,19 @@ class Game
 
 		// Create your Items here
 		// ...
-		Items book = new Items(2,"Boek");
-		Items pen = new Items(2,"Pen");
-		Items bag = new Items(2,"Bag");
-		Items key = new Items(2,"Key");
-		Items gun = new Items(10,"Gun");
+		Item book = new Item(2,"Boek");
+		Item pen = new Item(2,"Pen");
+		Item bag = new Items(2,"Bag");
+		Item key = new Item(2,"Key");
+		Item gun = new Item(10,"Gun");
+
+
 		// And add them to the Rooms
-		// ...
+		outside.AddItem(key);
+		lab.AddItem(gun);
+		theatre.AddItem(bag);
+		pub.AddItem(pen);
+
 
 		// Start game outside
 		startRoom = outside;
